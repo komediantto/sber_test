@@ -2,7 +2,6 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from .serializers import Application
 import json
-from random import randint
 
 
 class TestCalc(TestCase):

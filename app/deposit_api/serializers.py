@@ -2,7 +2,7 @@ import calendar
 from rest_framework import serializers
 from dataclasses import dataclass
 from django.core.validators import MinValueValidator, MaxValueValidator
-from datetime import timedelta, datetime
+from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 
 
@@ -20,8 +20,10 @@ class Application():
             for _ in range(self.periods):
                 self.amount *= (1 + self.rate/12/100)
                 next_month = (self.date + relativedelta(months=1))
-                next_date = next_month.replace(day=calendar.monthrange(next_month.year, next_month.month)[1])
-                profits[str(self.date.strftime("%d.%m.%Y"))] = round(self.amount, 2)
+                next_date = next_month.replace(day=calendar.monthrange(
+                    next_month.year, next_month.month)[1])
+                response_date = str(self.date.strftime("%d.%m.%Y"))
+                profits[response_date] = round(self.amount, 2)
                 self.date = next_date
             return profits
         else:
@@ -30,12 +32,13 @@ class Application():
                 self.amount *= (1 + self.rate/12/100)
                 if self.date.month == 2:
                     wrong_next_date = self.date + relativedelta(months=1)
-                    next_date = wrong_next_date.replace(day=self.date.day + (start_day - self.date.day))
+                    next_date = wrong_next_date.replace(
+                        day=self.date.day + (start_day - self.date.day))
                 else:
                     next_date = self.date + relativedelta(months=1)
-                profits[str(self.date.strftime("%d.%m.%Y"))] = round(self.amount, 2)
+                response_date = str(self.date.strftime("%d.%m.%Y"))
+                profits[response_date] = round(self.amount, 2)
                 self.date = next_date
-            print(profits)
             return profits
 
     def is_last_day_of_month(self):
