@@ -2,6 +2,12 @@
 
 Тестовое задание для Сбера
 
+Для получения SECRET_KEY выполните в терминале следующую команду:
+
+```
+python3 -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+```
+
 Для корректной работы приложения создайте в корне проекта файл .env с переменной SECRET_KEY.
 
 Команды для запуска:
